@@ -38,14 +38,14 @@ export default function Swap() {
       {/* Wallet Address */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-xl font-bold mr-2">Swap</h1>
-        <div className="flex items-center gap-1">
-          <div className="bg-gray-100 px-3 py-1 rounded-full text-sm">
+        <div className="flex items-center gap-0.5">
+          <div className="bg-gray-100 px-2 py-1 rounded-full text-sm truncate max-w-[120px]">
             {address ? truncateAddress(address) : "Connect Wallet"}
           </div>
           {address && (
             <Button
               onClick={() => disconnect()}
-              className="px-1.5 h-6 min-w-6 hover:bg-gray-100"
+              className="px-1 h-6 min-w-6 hover:bg-gray-100 flex items-center justify-center"
             >
               ×
             </Button>
