@@ -7,6 +7,14 @@ import { useAccount, useDisconnect } from "wagmi";
 import { Button } from "~/components/ui/Button";
 import { truncateAddress } from "~/lib/truncateAddress";
 
+interface Token {
+  symbol: string;
+  name: string;
+  image: string;
+  address: string;
+  decimals: number;
+}
+
 export default function Swap() {
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
 
@@ -18,6 +26,23 @@ export default function Swap() {
 
   const { address } = useAccount();
   const { disconnect } = useDisconnect();
+
+  const tokens: Record<string, Token> = {
+    eth: {
+      symbol: "ETH",
+      name: "Ethereum",
+      image: "/eth.png",
+      address: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      decimals: 18,
+    },
+    usdc: {
+      symbol: "USDC",
+      name: "USDC",
+      image: "/usdc.png",
+      address: "0x7f5c7618cd0b377ee65f826b136e7c83788287ea",
+      decimals: 6,
+    },
+  };
 
   useEffect(() => {
     const load = async () => {
@@ -61,8 +86,8 @@ export default function Swap() {
             onChange={(e) => setSellToken(e.target.value)}
             className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg cursor-pointer"
           >
-            <option value="ETH">🔵 ETH</option>
-            <option value="USDC">🟡 USDC</option>
+            <option value={tokens.eth.symbol}>{tokens.eth.symbol}</option>
+            <option value={tokens.usdc.symbol}>{tokens.usdc.symbol}</option>
           </select>
           <input
             value={sellAmount}
