@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import sdk from "@farcaster/frame-sdk";
-import { useAccount, useDisconnect } from "wagmi";
+import { useAccount, useDisconnect, useConnect } from "wagmi";
 
 import { Button } from "~/components/ui/Button";
 import { truncateAddress } from "~/lib/truncateAddress";
@@ -26,6 +26,7 @@ export default function Swap() {
 
   const { address } = useAccount();
   const { disconnect } = useDisconnect();
+  const { connect, connectors } = useConnect();
 
   const tokens: Record<string, Token> = {
     eth: {
@@ -65,15 +66,24 @@ export default function Swap() {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-xl font-bold mr-2">Swap</h1>
         <div className="flex items-center gap-0.5">
-          <div className="bg-gray-100 px-2 py-1 rounded-full text-sm truncate max-w-[120px]">
-            {address ? truncateAddress(address) : "Connect Wallet"}
-          </div>
-          {address && (
+          {address ? (
+            <>
+              <div className="bg-gray-100 px-2 py-1 rounded-full text-sm truncate max-w-[120px]">
+                {truncateAddress(address)}
+              </div>
+              <Button
+                onClick={() => disconnect()}
+                className="px-1 h-6 min-w-6 hover:bg-gray-100 flex items-center justify-center"
+              >
+                ×
+              </Button>
+            </>
+          ) : (
             <Button
-              onClick={() => disconnect()}
-              className="px-1 h-6 min-w-6 hover:bg-gray-100 flex items-center justify-center"
+              onClick={() => connect({ connector: connectors[0] })}
+              className="px-3 py-1 text-sm"
             >
-              ×
+              Connect Wallet
             </Button>
           )}
         </div>
