@@ -31,14 +31,15 @@ export default function Swap() {
     eth: {
       symbol: "ETH",
       name: "Ethereum",
-      image: "/eth.png",
+      image: "https://svgmix.com/uploads/3287b3-ethereum-eth.svg",
       address: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
       decimals: 18,
     },
     usdc: {
       symbol: "USDC",
       name: "USDC",
-      image: "/usdc.png",
+      image:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ43MuDqq54iD1ZCRL_uthAPkfwSSL-J5qI_Q&s",
       address: "0x7f5c7618cd0b377ee65f826b136e7c83788287ea",
       decimals: 6,
     },
@@ -81,18 +82,26 @@ export default function Swap() {
       {/* Sell Token Input */}
       <div className="bg-gray-100 rounded-lg p-4 mb-3">
         <div className="flex items-center gap-2 mb-2">
-          <select
-            value={sellToken}
-            onChange={(e) => setSellToken(e.target.value)}
-            className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg cursor-pointer"
-          >
-            <option value={tokens.eth.symbol}>{tokens.eth.symbol}</option>
-            <option value={tokens.usdc.symbol}>{tokens.usdc.symbol}</option>
-          </select>
+          <div className="flex items-center gap-2">
+            <img
+              src={tokens[sellToken.toLowerCase()].image}
+              alt={tokens[sellToken.toLowerCase()].name}
+              className="w-4 h-4"
+            />
+            <select
+              value={sellToken}
+              onChange={(e) => setSellToken(e.target.value)}
+              className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg cursor-pointer"
+            >
+              <option value={tokens.eth.symbol}>{tokens.eth.symbol}</option>
+              <option value={tokens.usdc.symbol}>{tokens.usdc.symbol}</option>
+            </select>
+          </div>
           <input
             value={sellAmount}
             onChange={(e) => setSellAmount(Number(e.target.value))}
             type="number"
+            inputMode="decimal"
             placeholder="0.0"
             className="bg-transparent text-xl w-full outline-none text-right"
           />
@@ -116,18 +125,26 @@ export default function Swap() {
       {/* Buy Token Input */}
       <div className="bg-gray-100 rounded-lg p-4 mb-3">
         <div className="flex items-center gap-2 mb-2">
-          <select
-            value={buyToken}
-            onChange={(e) => setBuyToken(e.target.value)}
-            className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg cursor-pointer"
-          >
-            <option value="USDC">🟡 USDC</option>
-            <option value="ETH">🔵 ETH</option>
-          </select>
+          <div className="flex items-center gap-2">
+            <img
+              src={tokens[buyToken.toLowerCase()].image}
+              alt={tokens[buyToken.toLowerCase()].name}
+              className="w-4 h-4"
+            />
+            <select
+              value={buyToken}
+              onChange={(e) => setBuyToken(e.target.value)}
+              className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg cursor-pointer"
+            >
+              <option value={tokens.usdc.symbol}>{tokens.usdc.symbol}</option>
+              <option value={tokens.eth.symbol}>{tokens.eth.symbol}</option>
+            </select>
+          </div>
           <input
             value={buyAmount}
             onChange={(e) => setBuyAmount(Number(e.target.value))}
             type="number"
+            inputMode="decimal"
             placeholder="0.0"
             className="bg-transparent text-xl w-full outline-none text-right"
           />
