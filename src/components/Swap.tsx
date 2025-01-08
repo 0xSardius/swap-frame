@@ -41,7 +41,7 @@ export default function Swap() {
       name: "USDC",
       image:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ43MuDqq54iD1ZCRL_uthAPkfwSSL-J5qI_Q&s",
-      address: "0x7f5c7618cd0b377ee65f826b136e7c83788287ea",
+      address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
       decimals: 6,
     },
   };
