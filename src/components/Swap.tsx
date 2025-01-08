@@ -60,6 +60,57 @@ export default function Swap() {
     return <div>Loading...</div>;
   }
 
+  // Fetch price data and set the buyAmount whenever the sellAmount changes
+  useEffect(() => {
+    const params = {
+      chainId: 8453,
+      sellToken: tokens[sellToken.toLowerCase()].address,
+      buyToken: tokens[buyToken.toLowerCase()].address,
+      sellAmount: sellAmount,
+      buyAmount: buyAmount,
+      taker,
+      swapFeeRecipient: FEE_RECIPIENT,
+      swapFeeBps: AFFILIATE_FEE,
+      swapFeeToken: buyTokenObject.address,
+      tradeSurplusRecipient: FEE_RECIPIENT,
+    };
+
+    async function main() {
+      const response = await fetch(`/api/price?${qs.stringify(params)}`);
+      const data = await response.json();
+
+      if (data?.validationErrors?.length > 0) {
+        // error for sellAmount too low
+        setError(data.validationErrors);
+      } else {
+        setError([]);
+      }
+      if (data.buyAmount) {
+        setBuyAmount(formatUnits(data.buyAmount, buyTokenDecimals));
+        setPrice(data);
+      }
+      // Set token tax information
+      if (data?.tokenMetadata) {
+        setBuyTokenTax(data.tokenMetadata.buyToken);
+        setSellTokenTax(data.tokenMetadata.sellToken);
+      }
+    }
+
+    if (sellAmount !== "") {
+      main();
+    }
+  }, [
+    sellTokenObject.address,
+    buyTokenObject.address,
+    parsedSellAmount,
+    parsedBuyAmount,
+    chainId,
+    sellAmount,
+    setPrice,
+    FEE_RECIPIENT,
+    AFFILIATE_FEE,
+  ]);
+
   return (
     <div className="w-[300px] mx-auto py-4 px-2">
       {/* Wallet Address */}
